@@ -8,13 +8,10 @@ import { getPlacesData } from "./api";
 const App = () => {
   const [places, setPlaces] = useState([]);
   const [coordinates, setCoordinates] = useState({});
-  const [bounds, setBounds] = useState(null);
-
-  useEffect(() => {
-    getPlacesData().then((data) => {
-      setPlaces(data);
-    });
-  }, [coordinates, bounds]);
+  const [bounds, setBounds] = useState({
+    ne: { lat: 0, lng: 0 },
+    sw: { lat: 0, lng: 0 },
+  });
 
   //get the current coordinates of a user
   useEffect(() => {
@@ -24,6 +21,13 @@ const App = () => {
       }
     );
   }, []);
+
+  useEffect(() => {
+    getPlacesData(bounds.sw, bounds.ne).then((data) => {
+      setPlaces(data);
+      console.log(data);
+    });
+  }, [coordinates, bounds]);
 
   return (
     <React.Fragment>
