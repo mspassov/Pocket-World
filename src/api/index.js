@@ -5,7 +5,6 @@ const URL =
 
 export const getPlacesData = async (sw, ne) => {
   try {
-    console.log("Hello ", sw.lat, ne.lng);
     const {
       data: { data },
     } = await axios.get(URL, {
@@ -16,7 +15,7 @@ export const getPlacesData = async (sw, ne) => {
         tr_longitude: ne.lng,
       },
       headers: {
-        "x-rapidapi-key": "455b4803d5mshc8e61d355fc4c71p1640f3jsnea6aa23fd659",
+        "x-rapidapi-key": "ded07ff67amsh230d1ea117a2698p17b92cjsn53d0657592b6",
         "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
       },
     });
