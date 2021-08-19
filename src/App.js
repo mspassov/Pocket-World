@@ -14,6 +14,9 @@ const App = () => {
   });
   const [childClicked, setChildClicked] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const [type, setType] = useState("restaurants");
+  const [rating, setRating] = useState(0);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
 
   //get the current coordinates of a user
   useEffect(() => {
@@ -26,11 +29,18 @@ const App = () => {
 
   useEffect(() => {
     setLoading(true);
-    getPlacesData(bounds.sw, bounds.ne).then((data) => {
+    getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
       setPlaces(data);
       setLoading(false);
     });
-  }, [coordinates, bounds]);
+  }, [type, coordinates, bounds]);
+
+  //filtering useEffect
+  useEffect(() => {
+    const filteredPlaces = places.filter((place) => place.rating > rating)
+
+    setFilteredPlaces(filteredPlaces);
+  }, [rating])
 
   return (
     <React.Fragment>
@@ -38,14 +48,22 @@ const App = () => {
       <Header />
       <Grid container spacing={3} style={{ width: "100" }}>
         <Grid item xs={12} md={4}>
-          <List places={places} childClicked={childClicked} isLoading={isLoading}/>
+          <List
+            places={filteredPlaces.length ? filteredPlaces : places}
+            childClicked={childClicked}
+            isLoading={isLoading}
+            type={type}
+            setType={setType}
+            rating={rating}
+            setRating={setRating}
+          />
         </Grid>
         <Grid item xs={12} md={8}>
           <Map
             setCoordinates={setCoordinates}
             setBounds={setBounds}
             coordinates={coordinates}
-            places={places}
+            places={filteredPlaces.length ? filteredPlaces : places}
             setChildClicked={setChildClicked}
           />
         </Grid>

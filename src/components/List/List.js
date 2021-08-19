@@ -11,10 +11,8 @@ import {
 } from "@material-ui/core";
 import useStyles from "./styles";
 
-const List = ({ places, childClicked, isLoading }) => {
+const List = ({ places, childClicked, isLoading, type, setType, rating, setRating }) => {
   const classes = useStyles();
-  const [type, setType] = useState("restaurant");
-  const [rating, setRating] = useState(0);
   const [references, setReferences] = useState([]);
 
   useEffect(() => {
@@ -22,10 +20,8 @@ const List = ({ places, childClicked, isLoading }) => {
       .fill()
       .map((_, i) => references[i] || createRef());
     setReferences(refs);
-    
-  }, [places]);
 
-  console.log("This is: ", { childClicked });
+  }, [places]);
 
   return (
     <div className={classes.container}>
@@ -41,7 +37,7 @@ const List = ({ places, childClicked, isLoading }) => {
           <FormControl className={classes.formControl}>
             <InputLabel>Type</InputLabel>
             <Select value={type} onChange={(e) => setType(e.target.value)}>
-              <MenuItem value="restaurant">Restaurants</MenuItem>
+              <MenuItem value="restaurants">Restaurants</MenuItem>
               <MenuItem value="hotels">Hotels</MenuItem>
               <MenuItem value="attractions">Attractions</MenuItem>
             </Select>
